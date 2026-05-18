@@ -7,6 +7,8 @@ interface HoldPaletteProps {
   filterBaseColour: string | null;
   onFilterGripType: (grip_type: GripType | null) => void;
   onFilterBaseColour: (base_colour: string | null) => void;
+  onPaletteDragStart: (asset_id: string) => void;
+  onPaletteDragEnd: () => void;
 }
 
 const GRIP_TYPES: readonly GripType[] = [
@@ -23,6 +25,8 @@ export function HoldPalette({
   filterBaseColour,
   onFilterGripType,
   onFilterBaseColour,
+  onPaletteDragStart,
+  onPaletteDragEnd,
 }: HoldPaletteProps) {
   const colours = useMemo(() => {
     const set = new Set(holds.map((h) => h.base_colour));
@@ -96,7 +100,9 @@ export function HoldPalette({
                 onDragStart={(e) => {
                   e.dataTransfer.setData("text/plain", hold.asset_id);
                   e.dataTransfer.effectAllowed = "copy";
+                  onPaletteDragStart(hold.asset_id);
                 }}
+                onDragEnd={() => onPaletteDragEnd()}
                 className="cursor-grab active:cursor-grabbing rounded border border-slate-200 bg-slate-50 p-2 hover:border-slate-400 hover:bg-white transition"
                 title={`${hold.display_name} (drag to wall)`}
               >

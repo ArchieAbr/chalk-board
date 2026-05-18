@@ -2,7 +2,8 @@
 
 Shapes mirror Section 7 of Technical Spec.md with two MVP-driven additions:
 - `difficulty_modifier` on holds, feeding `HoldQualityPenalty * w_2` in §8.
-- `display_name` and `dimensions` to support the palette UI and canvas render.
+- `display_name`, `width_cm` and `height_cm` to support the palette UI and
+  physically-scaled canvas render.
 
 Asset IDs use the human-readable `CLMB-###` form rather than UUIDs.
 """
@@ -19,15 +20,6 @@ GripType = Literal["Jug", "Crimp", "Sloper", "Pinch", "Foot"]
 AssetId = Annotated[str, StringConstraints(pattern=r"^CLMB-\d{3}$")]
 
 
-class HoldDimensions(BaseModel):
-    """Native image dimensions of a hold asset, in pixels."""
-
-    model_config = ConfigDict(extra="forbid")
-
-    width_px: int = Field(gt=0)
-    height_px: int = Field(gt=0)
-
-
 class HoldAsset(BaseModel):
     """A catalogue entry for a physical climbing hold."""
 
@@ -39,7 +31,8 @@ class HoldAsset(BaseModel):
     grip_type: GripType
     base_colour: str
     difficulty_modifier: float = Field(ge=0.0)
-    dimensions: HoldDimensions
+    width_cm: float = Field(gt=0.0)
+    height_cm: float = Field(gt=0.0)
 
 
 class RouteHoldPlacement(BaseModel):

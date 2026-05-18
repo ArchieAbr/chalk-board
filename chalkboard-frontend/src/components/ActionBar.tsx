@@ -9,6 +9,10 @@ interface ActionBarProps {
   saving: boolean;
   calculating: boolean;
   saveMessage: string | null;
+  canUndo: boolean;
+  canRedo: boolean;
+  onUndo: () => void;
+  onRedo: () => void;
   onRouteNameChange: (name: string) => void;
   onRouteGradeChange: (grade: string) => void;
   onCalculateBeta: () => void;
@@ -25,6 +29,10 @@ export function ActionBar({
   saving,
   calculating,
   saveMessage,
+  canUndo,
+  canRedo,
+  onUndo,
+  onRedo,
   onRouteNameChange,
   onRouteGradeChange,
   onCalculateBeta,
@@ -67,6 +75,27 @@ export function ActionBar({
               </option>
             ))}
           </select>
+        </div>
+
+        <div className="flex items-center gap-1">
+          <button
+            type="button"
+            onClick={onUndo}
+            disabled={!canUndo}
+            title="Undo (Ctrl+Z)"
+            className="text-sm px-2 py-1.5 rounded border border-slate-300 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            ↶ Undo
+          </button>
+          <button
+            type="button"
+            onClick={onRedo}
+            disabled={!canRedo}
+            title="Redo (Ctrl+Shift+Z)"
+            className="text-sm px-2 py-1.5 rounded border border-slate-300 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            ↷ Redo
+          </button>
         </div>
 
         <div className="flex-1 text-xs text-slate-500 px-2">

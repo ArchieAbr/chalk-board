@@ -3,11 +3,6 @@
 
 export type GripType = "Jug" | "Crimp" | "Sloper" | "Pinch" | "Foot";
 
-export interface HoldDimensions {
-  width_px: number;
-  height_px: number;
-}
-
 export interface HoldAsset {
   asset_id: string;
   display_name: string;
@@ -15,7 +10,8 @@ export interface HoldAsset {
   grip_type: GripType;
   base_colour: string;
   difficulty_modifier: number;
-  dimensions: HoldDimensions;
+  width_cm: number;
+  height_cm: number;
 }
 
 export interface Placement {
@@ -42,4 +38,10 @@ export interface RouteCreatePayload {
   author_id: string;
   grade: string;
   holds: Array<Omit<Placement, "placement_id">>;
+}
+
+export interface ViewTransform {
+  scale: number;
+  x: number;
+  y: number;
 }

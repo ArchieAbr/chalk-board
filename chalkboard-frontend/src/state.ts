@@ -22,6 +22,7 @@ export const initialState: AppState = {
 
 export type Action =
   | { type: "place"; asset_id: string; grid_x: number; grid_y: number }
+  | { type: "move"; placement_id: string; grid_x: number; grid_y: number }
   | { type: "select"; placement_id: string | null }
   | { type: "rotate"; placement_id: string; rotation: number }
   | { type: "markStart"; placement_id: string }
@@ -57,6 +58,16 @@ export function reducer(state: AppState, action: Action): AppState {
         beta: null,
       };
     }
+    case "move":
+      return {
+        ...state,
+        beta: null,
+        placements: state.placements.map((p) =>
+          p.placement_id === action.placement_id
+            ? { ...p, grid_x: action.grid_x, grid_y: action.grid_y }
+            : p,
+        ),
+      };
     case "select":
       return { ...state, selectedPlacementId: action.placement_id };
     case "rotate":
@@ -111,4 +122,101 @@ export function reducer(state: AppState, action: Action): AppState {
     case "setFilterBaseColour":
       return { ...state, filterBaseColour: action.base_colour };
   }
+}
+
+// --- History wrapper -------------------------------------------------------
+
+type Coalesce = {
+  type: "rotate" | "move";
+  placement_id: string;
+  time: number;
+};
+
+export interface HistorizedState {
+  past: AppState[];
+  present: AppState;
+  future: AppState[];
+  coalesce: Coalesce | null;
+}
+
+export type HistoryAction = Action | { type: "undo" } | { type: "redo" };
+
+export const initialHistorizedState: HistorizedState = {
+  past: [],
+  present: initialState,
+  future: [],
+  coalesce: null,
+};
+
+const HISTORY_LIMIT = 100;
+const COALESCE_WINDOW_MS = 500;
+
+const HISTORIZED_TYPES = new Set<Action["type"]>([
+  "place",
+  "move",
+  "rotate",
+  "markStart",
+  "markFinish",
+  "delete",
+  "clear",
+]);
+
+export function historyReducer(
+  state: HistorizedState,
+  action: HistoryAction,
+): HistorizedState {
+  if (action.type === "undo") {
+    if (state.past.length === 0) return state;
+    const previous = state.past[state.past.length - 1];
+    return {
+      past: state.past.slice(0, -1),
+      present: previous,
+      future: [state.present, ...state.future],
+      coalesce: null,
+    };
+  }
+  if (action.type === "redo") {
+    if (state.future.length === 0) return state;
+    const next = state.future[0];
+    return {
+      past: [...state.past, state.present],
+      present: next,
+      future: state.future.slice(1),
+      coalesce: null,
+    };
+  }
+
+  const newPresent = reducer(state.present, action);
+  if (newPresent === state.present) return state;
+
+  if (!HISTORIZED_TYPES.has(action.type)) {
+    return { ...state, present: newPresent };
+  }
+
+  const now = Date.now();
+  const shouldCoalesce =
+    (action.type === "rotate" || action.type === "move") &&
+    state.coalesce !== null &&
+    state.coalesce.type === action.type &&
+    state.coalesce.placement_id === action.placement_id &&
+    now - state.coalesce.time < COALESCE_WINDOW_MS;
+
+  if (shouldCoalesce) {
+    return {
+      ...state,
+      present: newPresent,
+      coalesce: { type: action.type, placement_id: action.placement_id, time: now },
+    };
+  }
+
+  const past = [...state.past, state.present];
+  return {
+    past: past.length > HISTORY_LIMIT ? past.slice(-HISTORY_LIMIT) : past,
+    present: newPresent,
+    future: [],
+    coalesce:
+      action.type === "rotate" || action.type === "move"
+        ? { type: action.type, placement_id: action.placement_id, time: now }
+        : null,
+  };
 }
