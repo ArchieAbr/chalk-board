@@ -1,0 +1,110 @@
+[
+  {
+    "asset_id": "CLMB-001",
+    "display_name": "Classic Jug — Acid Green",
+    "image_url": "/assets/holds/Classic Jug - Acid Green.png",
+    "grip_type": "Jug",
+    "base_colour": "Acid Green",
+    "difficulty_modifier": 1.0,
+    "dimensions": {
+      "width_px": 242,
+      "height_px": 222
+    }
+  },
+  {
+    "asset_id": "CLMB-002",
+    "display_name": "Classic Jug — Electric Blue",
+    "image_url": "/assets/holds/Classic Jug - Electric Blue.png",
+    "grip_type": "Jug",
+    "base_colour": "Electric Blue",
+    "difficulty_modifier": 1.0,
+    "dimensions": {
+      "width_px": 262,
+      "height_px": 225
+    }
+  },
+  {
+    "asset_id": "CLMB-003",
+    "display_name": "Classic Jug — Fluoro Orange",
+    "image_url": "/assets/holds/Classic Jug - Fluoro Orange.png",
+    "grip_type": "Jug",
+    "base_colour": "Fluoro Orange",
+    "difficulty_modifier": 1.0,
+    "dimensions": {
+      "width_px": 297,
+      "height_px": 254
+    }
+  },
+  {
+    "asset_id": "CLMB-004",
+    "display_name": "Open Sloper — Acid Green",
+    "image_url": "/assets/holds/Open Sloper - Acid Green.png",
+    "grip_type": "Sloper",
+    "base_colour": "Acid Green",
+    "difficulty_modifier": 2.5,
+    "dimensions": {
+      "width_px": 272,
+      "height_px": 258
+    }
+  },
+  {
+    "asset_id": "CLMB-005",
+    "display_name": "Open Sloper — Electric Blue",
+    "image_url": "/assets/holds/Open Sloper - Electric Blue.png",
+    "grip_type": "Sloper",
+    "base_colour": "Electric Blue",
+    "difficulty_modifier": 2.5,
+    "dimensions": {
+      "width_px": 298,
+      "height_px": 252
+    }
+  },
+  {
+    "asset_id": "CLMB-006",
+    "display_name": "Open Sloper — Fluoro Orange",
+    "image_url": "/assets/holds/Open Sloper - Fluoro Orange.png",
+    "grip_type": "Sloper",
+    "base_colour": "Fluoro Orange",
+    "difficulty_modifier": 2.5,
+    "dimensions": {
+      "width_px": 260,
+      "height_px": 240
+    }
+  },
+  {
+    "asset_id": "CLMB-007",
+    "display_name": "Steep Crimp — Acid Green",
+    "image_url": "/assets/holds/Steep Crimp - Acid Green.png",
+    "grip_type": "Crimp",
+    "base_colour": "Acid Green",
+    "difficulty_modifier": 3.5,
+    "dimensions": {
+      "width_px": 299,
+      "height_px": 185
+    }
+  },
+  {
+    "asset_id": "CLMB-008",
+    "display_name": "Steep Crimp — Electric Blue",
+    "image_url": "/assets/holds/Steep Crimp - Electric Blue.png",
+    "grip_type": "Crimp",
+    "base_colour": "Electric Blue",
+    "difficulty_modifier": 3.5,
+    "dimensions": {
+      "width_px": 286,
+      "height_px": 215
+    }
+  },
+  {
+    "asset_id": "CLMB-009",
+    "display_name": "Steep Crimp — Fluoro Orange",
+    "image_url": "/assets/holds/Steep Crimp - Fluoro Orange.png",
+    "grip_type": "Crimp",
+    "base_colour": "Fluoro Orange",
+    "difficulty_modifier": 3.5,
+    "dimensions": {
+      "width_px": 295,
+      "height_px": 211
+    }
+  }
+]
