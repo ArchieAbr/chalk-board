@@ -1,0 +1,12 @@
+# Pin majors to avoid surprise breakage; allow patch/minor updates.
+# Re-pin exactly with `pip freeze > requirements.lock.txt` if reproducibility tightens.
+
+fastapi>=0.136,<1.0
+uvicorn[standard]>=0.47,<1.0
+pydantic>=2.13,<3.0
+
+# Deferred until SQLAlchemy models land (Section 6 of Technical Spec.md).
+sqlalchemy>=2.0,<3.0
+
+# Required for the beta pathfinding graph search (Section 8).
+networkx>=3.0,<4.0

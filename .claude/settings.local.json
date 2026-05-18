@@ -1,7 +1,17 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python -m py_compile schemas.py main.py)"
+      "Bash(python -m py_compile schemas.py main.py)",
+      "Bash(git status *)",
+      "Bash(npm --version)",
+      "Bash(npm create *)",
+      "Bash(rm chalkboard-frontend/.gitkeep)",
+      "Bash(cp _vite_tmp/.gitignore _vite_tmp/README.md _vite_tmp/eslint.config.js _vite_tmp/index.html _vite_tmp/package.json _vite_tmp/tsconfig.app.json _vite_tmp/tsconfig.json _vite_tmp/tsconfig.node.json _vite_tmp/vite.config.ts chalkboard-frontend/)",
+      "Bash(cp -r _vite_tmp/src chalkboard-frontend/)",
+      "Bash(cp _vite_tmp/public/favicon.svg _vite_tmp/public/icons.svg chalkboard-frontend/public/)",
+      "Bash(rm -rf _vite_tmp)",
+      "Bash(npm install *)",
+      "Bash(npm run *)"
     ]
   }
 }
