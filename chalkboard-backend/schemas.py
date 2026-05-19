@@ -6,10 +6,15 @@ Shapes mirror Section 7 of Technical Spec.md with two MVP-driven additions:
   physically-scaled canvas render.
 
 Asset IDs use the human-readable `CLMB-###` form rather than UUIDs.
+
+Naming convention: `*Read` for ORM-backed read shapes (with `from_attributes`),
+`*Create` for write payloads, `*Summary` for list responses, otherwise the
+original spec names.
 """
 
 from __future__ import annotations
 
+from datetime import datetime
 from typing import Annotated, Literal
 from uuid import UUID
 
@@ -20,10 +25,10 @@ GripType = Literal["Jug", "Crimp", "Sloper", "Pinch", "Foot"]
 AssetId = Annotated[str, StringConstraints(pattern=r"^CLMB-\d{3}$")]
 
 
-class HoldAsset(BaseModel):
+class HoldAssetRead(BaseModel):
     """A catalogue entry for a physical climbing hold."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid", from_attributes=True)
 
     asset_id: AssetId
     display_name: str = Field(min_length=1, max_length=80)
@@ -38,7 +43,7 @@ class HoldAsset(BaseModel):
 class RouteHoldPlacement(BaseModel):
     """A single hold placed on the wall as part of a route."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid", from_attributes=True)
 
     asset_id: AssetId
     grid_x: int
@@ -59,16 +64,29 @@ class RouteCreate(BaseModel):
     holds: list[RouteHoldPlacement]
 
 
-class RouteCreated(BaseModel):
-    """Response for POST /api/routes — echoes the submitted route with a fresh id."""
+class RouteRead(BaseModel):
+    """Canonical fetched route. Used for POST response and GET /api/routes/{id}."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid", from_attributes=True)
 
     route_id: UUID
     name: str
     author_id: UUID
     grade: str
+    created_at: datetime
     holds: list[RouteHoldPlacement]
+
+
+class RouteSummary(BaseModel):
+    """Lightweight summary for GET /api/routes listing."""
+
+    model_config = ConfigDict(extra="forbid", from_attributes=True)
+
+    route_id: UUID
+    name: str
+    grade: str
+    created_at: datetime
+    hold_count: int
 
 
 class BetaCalculateRequest(BaseModel):

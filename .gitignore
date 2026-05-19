@@ -15,6 +15,12 @@ env/
 .mypy_cache/
 .ruff_cache/
 
+# --- SQLite (local dev DB) ---
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
 # --- Node / Frontend ---
 node_modules/
 dist/
